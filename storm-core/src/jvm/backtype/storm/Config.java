@@ -317,7 +317,44 @@ public class Config extends HashMap<String, Object> {
      */
     public static final String UI_CHILDOPTS = "ui.childopts";
     public static final Object UI_CHILDOPTS_SCHEMA = String.class;
+    /**
+     * List of REST servers so that the RESTSpout knows who to talk to
+     */
+    public static final String REST_SERVERS = "rest.servers";
+    public static final Object REST_SERVERS_SCHEMA = ConfigValidation.StringsValidator;
 
+    /**
+     * This port is used by Storm REST for receiving REST request from clients
+     */
+    public static final String REST_PORT = "rest.port";
+    public static final Object REST_PORT_SCHEMA = Number.class;
+    
+    /**
+     * This port on Storm REST is used by REST topologies to receive ***TODO:.
+     */
+    public static final String REST_INVOCATIONS_PORT = "rest.invocations.port";
+    public static final Object REST_INVOCATIONS_PORT_SCHEMA = Number.class;
+    
+    /**
+     * REST thirift server worker threads
+     */
+    public static final String REST_WORKER_THREADS = "rest.worker.threads";
+    public static final Object REST_WORKER_THREADS_SCHEMA = Number.class;
+    
+    /**
+     * REST thirift server worker threads
+     */
+    public static final String REST_QUEUE_SIZE = "rest.queue.size";
+    public static final Object REST_QUEUE_SIZE_SCHEMA = Number.class;
+    
+    /**
+     * The timeout on REST requests within the REST server. Defaults to 10 minutes. Note that request can also
+     * timeout based on the socket timeout on the REST client, and separately based on the topology message
+     * timeout for the topology implementing the REST service.
+     */
+    public static final String REST_REQUEST_TIMEOUT_SECS = "rest.request.timeout.secs";
+    public static final Object REST_REQUEST_TIMEOUT_SECS_SCHEMA = Number.class;
+    
     /**
      * List of DRPC servers so that the DRPCSpout knows who to talk to.
      */

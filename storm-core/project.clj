@@ -27,6 +27,7 @@
                  [com.google.guava/guava "13.0"]
                  [ch.qos.logback/logback-classic "1.0.6"]
                  [org.slf4j/log4j-over-slf4j "1.6.6"]
+                 [org.restlet.jse/org.restlet "2.1.4"]
                  ]
 
   :source-paths ["src/clj"]
@@ -43,8 +44,9 @@
 
   :plugins [[lein-swank "1.4.4"]]
 
-  :repositories {"sonatype"
-                 "http://oss.sonatype.org/content/groups/public/"}
+  :repositories [["sonatype" "http://oss.sonatype.org/content/groups/public/"]
+                 ["restlet" "http://maven.restlet.org"]
+                 ]
 
   :javac-options ["-g"]
   :jvm-opts ["-Djava.library.path=/usr/local/lib:/opt/local/lib:/usr/lib"]

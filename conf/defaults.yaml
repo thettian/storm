@@ -41,6 +41,12 @@ ui.childopts: "-Xmx768m"
 logviewer.port: 8000
 logviewer.childopts: "-Xmx128m"
 
+rest.port: 8089
+rest.worker.threads: 64
+rest.queue.size: 128
+rest.invocations.port: 3775
+rest.request.timeout.secs: 60
+rest.childopts: "-Xmx768m"
 
 drpc.port: 3772
 drpc.worker.threads: 64
