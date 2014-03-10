@@ -90,7 +90,12 @@ public class RESTSpout extends BaseRichSpout{
                         returnInfo.put("host", client.getHost());
                         returnInfo.put("port", client.getPort());
                         gotRequest = true;
-                        _collector.emit(new Values(req.get_func_args(), JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), i));
+                        
+                        String uri = checkUri(req.get_func_args());
+                        if(uri !=null) 
+                        	_collector.emit(new Values(req.get_func_args(), JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), i));
+                        else 
+                        	client.failRequest(req.get_request_id());
                         break;
                     }
                 } catch (TException e) {
@@ -108,7 +113,12 @@ public class RESTSpout extends BaseRichSpout{
                         returnInfo.put("host", _local_rest_id);
                         returnInfo.put("port", 0);
                         gotRequest = true;
-                        _collector.emit(new Values(req.get_func_args(), JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), 0));
+                        
+                        String uri = checkUri(req.get_func_args());
+                        if(uri !=null) 
+                        	_collector.emit(new Values(req.get_func_args(), JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), 0));
+                        else 
+                        	drpc.failRequest(req.get_request_id());
                     }
                 } catch (TException e) {
                     throw new RuntimeException(e);
@@ -146,6 +156,14 @@ public class RESTSpout extends BaseRichSpout{
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("args","return-info"));
 		
+	}
+	
+	private String checkUri(String uri){
+		if(uri.startsWith("/"+_application)){
+			return uri;
+		}
+		
+		return null;
 	}
 
 }

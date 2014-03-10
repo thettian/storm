@@ -67,7 +67,7 @@
             (cleanup id)
             (log-debug "Returning REST result as " result " at " (System/currentTimeMillis))
             (if (instance? DRPCExecutionException result)
-              (throw result)
+              (.get_msg result)
               result
              ))))
       DistributedRPCInvocations$Iface

@@ -57,13 +57,20 @@ public class RESTfulServerResource extends ServerResource{
     }
     
     private StringRepresentation handleStringResult(String text){
-    	int _index = text.indexOf(":");
-    	String _extention = text.substring(0, _index - 1);
-    	StringRepresentation _result = new StringRepresentation(text.substring(_index + 1));
     	
-    	MediaType _mediatype = metadataService.getMediaType(_extention);
-    	if(_mediatype != null)
-    		_result.setMediaType(_mediatype);
+    	if(text == null) text = "";
+    	StringRepresentation _result = new StringRepresentation(text);
+    	
+    	int _index = text.indexOf(':');
+    	if(_index > 0){
+    		String _extention = text.substring(0, _index - 1);
+    		
+    		_result.setText(text.substring(_index + 1));
+    		MediaType _mediatype = metadataService.getMediaType(_extention);
+    		if(_mediatype != null)
+        		_result.setMediaType(_mediatype);
+    	}
+    	
     	return _result;
     }
 }
