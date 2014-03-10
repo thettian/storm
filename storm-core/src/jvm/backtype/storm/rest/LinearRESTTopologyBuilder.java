@@ -12,10 +12,10 @@ import backtype.storm.coordination.CoordinatedBolt.FinishedCallback;
 import backtype.storm.coordination.CoordinatedBolt.IdStreamSpec;
 import backtype.storm.coordination.CoordinatedBolt.SourceArgs;
 import backtype.storm.coordination.IBatchBolt;
-import backtype.storm.drpc.JoinResult;
+import backtype.storm.rest.JoinResult;
 import backtype.storm.drpc.LinearDRPCInputDeclarer;
-import backtype.storm.drpc.PrepareRequest;
-import backtype.storm.drpc.ReturnResults;
+import backtype.storm.rest.PrepareRequest;
+import backtype.storm.rest.ReturnResults;
 import backtype.storm.generated.StormTopology;
 import backtype.storm.generated.StreamInfo;
 import backtype.storm.grouping.CustomStreamGrouping;
@@ -75,6 +75,8 @@ public class LinearRESTTopologyBuilder {
     private StormTopology createTopology(RESTSpout spout) {
         final String SPOUT_ID = "spout";
         final String PREPARE_ID = "prepare-request";
+        final String JOIN_ID = "join-results";
+        final String RETURN_ID = "return-result";
         
         TopologyBuilder builder = new TopologyBuilder();
         builder.setSpout(SPOUT_ID, spout);
@@ -137,12 +139,12 @@ public class LinearRESTTopologyBuilder {
             throw new RuntimeException("Output stream of last component in LinearRESTTopology must contain exactly two fields. The first should be the request id, and the second should be the result.");
         }
 
-        builder.setBolt(boltId(i), new JoinResult(PREPARE_ID))
+        builder.setBolt(JOIN_ID, new JoinResult(PREPARE_ID))
                 .fieldsGrouping(boltId(i-1), outputStream, new Fields(fields.get(0)))
                 .fieldsGrouping(PREPARE_ID, PrepareRequest.RETURN_STREAM, new Fields("request"));
-        i++;
-        builder.setBolt(boltId(i), new ReturnResults())
-                .noneGrouping(boltId(i-1));
+        //i++;
+        builder.setBolt(RETURN_ID, new ReturnResults())
+                .noneGrouping(JOIN_ID);
         return builder.createTopology();
     }
     
