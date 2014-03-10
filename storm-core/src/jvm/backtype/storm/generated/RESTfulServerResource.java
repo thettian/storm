@@ -1,9 +1,11 @@
 package backtype.storm.generated;
 
+import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import org.restlet.service.MetadataService;
 
 import backtype.storm.generated.RESTful.RESTfulProcessor;
 
@@ -14,6 +16,7 @@ import backtype.storm.generated.RESTful.RESTfulProcessor;
  */
 public class RESTfulServerResource extends ServerResource{
 	private RESTfulProcessor processor;
+	private MetadataService metadataService;
 	
 	/**
 	 * Overrid the {@doInit} to get the request processor.
@@ -21,6 +24,7 @@ public class RESTfulServerResource extends ServerResource{
 	@Override
 	public void doInit(){
 		processor = (RESTfulProcessor) getContext().getAttributes().get("processor");
+		metadataService = new MetadataService();
 	}
 	
 	/**
@@ -28,16 +32,18 @@ public class RESTfulServerResource extends ServerResource{
      */
     @Override
     protected Representation get() throws ResourceException {
-        String result = processor.execute(getRequest().getResourceRef().getPath());
-        return new StringRepresentation(result);
+        String _result = processor.execute(getRequest().getResourceRef().getPath());
+        
+        return handleStringResult(_result);
     }
     
     /**
      * Handle the HTTP POST method by returning a simple textual representation.
      */
     protected Representation post() throws ResourceException{
-    	String result = processor.execute(getRequest().getResourceRef().getPath());
-    	return new StringRepresentation(result);
+    	String _result = processor.execute(getRequest().getResourceRef().getPath());
+    	
+    	return handleStringResult(_result);
     }
 
     /**
@@ -48,5 +54,16 @@ public class RESTfulServerResource extends ServerResource{
     protected Representation options() throws ResourceException {
         System.out.println("The OPTIONS method of root resource was invoked.");
         throw new RuntimeException("Not yet implemented");
+    }
+    
+    private StringRepresentation handleStringResult(String text){
+    	int _index = text.indexOf(":");
+    	String _extention = text.substring(0, _index - 1);
+    	StringRepresentation _result = new StringRepresentation(text.substring(_index + 1));
+    	
+    	MediaType _mediatype = metadataService.getMediaType(_extention);
+    	if(_mediatype != null)
+    		_result.setMediaType(_mediatype);
+    	return _result;
     }
 }
