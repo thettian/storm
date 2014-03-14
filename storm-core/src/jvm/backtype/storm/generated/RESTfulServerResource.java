@@ -63,12 +63,13 @@ public class RESTfulServerResource extends ServerResource{
     	
     	int _index = text.indexOf(':');
     	if(_index > 0){
-    		String _extention = text.substring(0, _index - 1);
+    		String _extention = text.substring(0, _index);
     		
     		_result.setText(text.substring(_index + 1));
     		MediaType _mediatype = metadataService.getMediaType(_extention);
     		if(_mediatype != null)
         		_result.setMediaType(_mediatype);
+    		System.out.println(_extention);
     	}
     	
     	return _result;
