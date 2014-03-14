@@ -69,7 +69,6 @@ public class RESTfulServerResource extends ServerResource{
     		MediaType _mediatype = metadataService.getMediaType(_extention);
     		if(_mediatype != null)
         		_result.setMediaType(_mediatype);
-    		System.out.println(_extention);
     	}
     	
     	return _result;
