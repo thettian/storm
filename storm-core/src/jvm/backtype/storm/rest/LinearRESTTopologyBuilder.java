@@ -13,7 +13,7 @@ import backtype.storm.coordination.CoordinatedBolt.IdStreamSpec;
 import backtype.storm.coordination.CoordinatedBolt.SourceArgs;
 import backtype.storm.coordination.IBatchBolt;
 import backtype.storm.rest.JoinResult;
-import backtype.storm.drpc.LinearDRPCInputDeclarer;
+import backtype.storm.rest.LinearRESTInputDeclarer;
 import backtype.storm.rest.PrepareRequest;
 import backtype.storm.rest.ReturnResults;
 import backtype.storm.generated.StormTopology;
@@ -38,16 +38,16 @@ public class LinearRESTTopologyBuilder {
         _application = application;
     }
         
-    public LinearDRPCInputDeclarer addBolt(IBatchBolt bolt, Number parallelism) {
+    public LinearRESTInputDeclarer addBolt(IBatchBolt bolt, Number parallelism) {
         return addBolt(new BatchBoltExecutor(bolt), parallelism);
     }
     
-    public LinearDRPCInputDeclarer addBolt(IBatchBolt bolt) {
+    public LinearRESTInputDeclarer addBolt(IBatchBolt bolt) {
         return addBolt(bolt, 1);
     }
     
     @Deprecated
-    public LinearDRPCInputDeclarer addBolt(IRichBolt bolt, Number parallelism) {
+    public LinearRESTInputDeclarer addBolt(IRichBolt bolt, Number parallelism) {
         if(parallelism==null) parallelism = 1; 
         Component component = new Component(bolt, parallelism.intValue());
         _components.add(component);
@@ -55,15 +55,15 @@ public class LinearRESTTopologyBuilder {
     }
     
     @Deprecated
-    public LinearDRPCInputDeclarer addBolt(IRichBolt bolt) {
+    public LinearRESTInputDeclarer addBolt(IRichBolt bolt) {
         return addBolt(bolt, null);
     }
     
-    public LinearDRPCInputDeclarer addBolt(IBasicBolt bolt, Number parallelism) {
+    public LinearRESTInputDeclarer addBolt(IBasicBolt bolt, Number parallelism) {
         return addBolt(new BasicBoltExecutor(bolt), parallelism);
     }
 
-    public LinearDRPCInputDeclarer addBolt(IBasicBolt bolt) {
+    public LinearRESTInputDeclarer addBolt(IBasicBolt bolt) {
         return addBolt(bolt, null);
     }
     
@@ -169,7 +169,7 @@ public class LinearRESTTopologyBuilder {
         public void declare(String prevComponent, InputDeclarer declarer);
     }
     
-    private class InputDeclarerImpl extends BaseConfigurationDeclarer<LinearDRPCInputDeclarer> implements LinearDRPCInputDeclarer {
+    private class InputDeclarerImpl extends BaseConfigurationDeclarer<LinearRESTInputDeclarer> implements LinearRESTInputDeclarer {
         Component _component;
         
         public InputDeclarerImpl(Component component) {
@@ -177,7 +177,7 @@ public class LinearRESTTopologyBuilder {
         }
         
         @Override
-        public LinearDRPCInputDeclarer fieldsGrouping(final Fields fields) {
+        public LinearRESTInputDeclarer fieldsGrouping(final Fields fields) {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -188,7 +188,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer fieldsGrouping(final String streamId, final Fields fields) {
+        public LinearRESTInputDeclarer fieldsGrouping(final String streamId, final Fields fields) {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -199,7 +199,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer globalGrouping() {
+        public LinearRESTInputDeclarer globalGrouping() {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -210,7 +210,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer globalGrouping(final String streamId) {
+        public LinearRESTInputDeclarer globalGrouping(final String streamId) {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -221,7 +221,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer shuffleGrouping() {
+        public LinearRESTInputDeclarer shuffleGrouping() {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -232,7 +232,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer shuffleGrouping(final String streamId) {
+        public LinearRESTInputDeclarer shuffleGrouping(final String streamId) {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -243,7 +243,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer localOrShuffleGrouping() {
+        public LinearRESTInputDeclarer localOrShuffleGrouping() {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -254,7 +254,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer localOrShuffleGrouping(final String streamId) {
+        public LinearRESTInputDeclarer localOrShuffleGrouping(final String streamId) {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -265,7 +265,7 @@ public class LinearRESTTopologyBuilder {
         }
         
         @Override
-        public LinearDRPCInputDeclarer noneGrouping() {
+        public LinearRESTInputDeclarer noneGrouping() {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -276,7 +276,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer noneGrouping(final String streamId) {
+        public LinearRESTInputDeclarer noneGrouping(final String streamId) {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -287,7 +287,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer allGrouping() {
+        public LinearRESTInputDeclarer allGrouping() {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -298,7 +298,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer allGrouping(final String streamId) {
+        public LinearRESTInputDeclarer allGrouping(final String streamId) {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -309,7 +309,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer directGrouping() {
+        public LinearRESTInputDeclarer directGrouping() {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -320,7 +320,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer directGrouping(final String streamId) {
+        public LinearRESTInputDeclarer directGrouping(final String streamId) {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -331,7 +331,7 @@ public class LinearRESTTopologyBuilder {
         }
         
         @Override
-        public LinearDRPCInputDeclarer customGrouping(final CustomStreamGrouping grouping) {
+        public LinearRESTInputDeclarer customGrouping(final CustomStreamGrouping grouping) {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -342,7 +342,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer customGrouping(final String streamId, final CustomStreamGrouping grouping) {
+        public LinearRESTInputDeclarer customGrouping(final String streamId, final CustomStreamGrouping grouping) {
             addDeclaration(new InputDeclaration() {
                 @Override
                 public void declare(String prevComponent, InputDeclarer declarer) {
@@ -357,7 +357,7 @@ public class LinearRESTTopologyBuilder {
         }
 
         @Override
-        public LinearDRPCInputDeclarer addConfigurations(Map conf) {
+        public LinearRESTInputDeclarer addConfigurations(Map conf) {
             _component.componentConfs.add(conf);
             return this;
         }
