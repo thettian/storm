@@ -93,7 +93,7 @@ public class RESTSpout extends BaseRichSpout{
                         
                         String uri = checkUri(req.get_func_args());
                         if(uri !=null) 
-                        	_collector.emit(new Values(req.get_func_args(), JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), i));
+                        	_collector.emit(new Values(uri, JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), i));
                         else 
                         	client.failRequest(req.get_request_id());
                         break;
@@ -116,7 +116,7 @@ public class RESTSpout extends BaseRichSpout{
                         
                         String uri = checkUri(req.get_func_args());
                         if(uri !=null) 
-                        	_collector.emit(new Values(req.get_func_args(), JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), 0));
+                        	_collector.emit(new Values(uri, JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), 0));
                         else 
                         	drpc.failRequest(req.get_request_id());
                     }
@@ -160,7 +160,7 @@ public class RESTSpout extends BaseRichSpout{
 	
 	private String checkUri(String uri){
 		if(uri.startsWith("/"+_application)){
-			return uri;
+			return uri.replaceFirst("/"+_application, "");
 		}
 		
 		return null;
