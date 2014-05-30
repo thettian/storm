@@ -1,5 +1,8 @@
 package backtype.storm.generated;
 
+import java.util.Map;
+
+import org.json.simple.JSONObject;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
@@ -32,7 +35,11 @@ public class RESTfulServerResource extends ServerResource{
      */
     @Override
     protected Representation get() throws ResourceException {
-        String _result = processor.execute(getRequest().getResourceRef().getPath());
+    	DWEBRequest _request = new DWEBRequest();
+    	_request.setUrl(getRequest().getResourceRef().getPath());
+    	_request.setAttributes(getRequest().getResourceRef().getQueryAsForm().getValuesMap());
+    	
+        String _result = processor.execute(_request.toString());
         
         return handleStringResult(_result);
     }
@@ -41,7 +48,11 @@ public class RESTfulServerResource extends ServerResource{
      * Handle the HTTP POST method by returning a simple textual representation.
      */
     protected Representation post() throws ResourceException{
-    	String _result = processor.execute(getRequest().getResourceRef().getPath());
+    	DWEBRequest _request = new DWEBRequest();
+    	_request.setUrl(getRequest().getResourceRef().getPath());
+    	_request.setAttributes(getRequest().getResourceRef().getQueryAsForm().getValuesMap());
+    	    	
+        String _result = processor.execute(_request.toString());
     	
     	return handleStringResult(_result);
     }

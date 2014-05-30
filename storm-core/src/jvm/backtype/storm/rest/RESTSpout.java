@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.thrift7.TException;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.mortbay.util.ajax.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,9 +94,12 @@ public class RESTSpout extends BaseRichSpout{
                         returnInfo.put("port", client.getPort());
                         gotRequest = true;
                         
-                        String uri = checkUri(req.get_func_args());
-                        if(uri !=null) 
-                        	_collector.emit(new Values(uri, JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), i));
+                        Map _request = (Map) JSONValue.parse(req.get_func_args());
+                        String uri = checkUri((String) _request.get("URI"));
+                        if(uri !=null) {
+                        	_request.put("URI", uri);
+                        	_collector.emit(new Values(JSONValue.toJSONString(_request), JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), i));
+                        }
                         else 
                         	client.failRequest(req.get_request_id());
                         break;
@@ -114,9 +120,12 @@ public class RESTSpout extends BaseRichSpout{
                         returnInfo.put("port", 0);
                         gotRequest = true;
                         
-                        String uri = checkUri(req.get_func_args());
-                        if(uri !=null) 
-                        	_collector.emit(new Values(uri, JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), 0));
+                        Map _request = (Map) JSONValue.parse(req.get_func_args());
+                        String uri = checkUri((String) _request.get("URI"));
+                        if(uri !=null) {
+                        	_request.put("URI", uri);
+                        	_collector.emit(new Values(JSONValue.toJSONString(_request), JSONValue.toJSONString(returnInfo)), new DRPCMessageId(req.get_request_id(), 0));
+                        }
                         else 
                         	drpc.failRequest(req.get_request_id());
                     }
@@ -159,6 +168,7 @@ public class RESTSpout extends BaseRichSpout{
 	}
 	
 	private String checkUri(String uri){
+		
 		if(uri.startsWith("/"+_application)){
 			return uri.replaceFirst("/"+_application, "");
 		}
