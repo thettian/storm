@@ -1,4 +1,4 @@
-(ns backtype.storm.daemon.rest
+(ns backtype.storm.daemon.dweb
   (:import [org.restlet.data Protocol ])
   (:import [org.apache.thrift7.server THsHaServer THsHaServer$Args])
   (:import [org.apache.thrift7.protocol TBinaryProtocol TBinaryProtocol$Factory])

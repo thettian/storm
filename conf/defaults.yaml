@@ -46,7 +46,7 @@ rest.worker.threads: 64
 rest.queue.size: 128
 rest.invocations.port: 3775
 rest.request.timeout.secs: 60
-rest.childopts: "-Xmx768m"
+dweb.childopts: "-Xmx768m"
 
 drpc.port: 3772
 drpc.worker.threads: 64
