@@ -1,8 +1,5 @@
 package backtype.storm.generated;
 
-import java.util.Map;
-
-import org.json.simple.JSONObject;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
@@ -10,15 +7,15 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.service.MetadataService;
 
-import backtype.storm.generated.RESTful.RESTfulProcessor;
+import backtype.storm.generated.DistributedWEB.DWEBProcessor;
 
 /**
  * The Restlet ServerResource for storm REST.
  * @author thettian
  *
  */
-public class RESTfulServerResource extends ServerResource{
-	private RESTfulProcessor processor;
+public class DistributedWEBServer extends ServerResource{
+	private DWEBProcessor processor;
 	private MetadataService metadataService;
 	
 	/**
@@ -26,7 +23,7 @@ public class RESTfulServerResource extends ServerResource{
 	 */
 	@Override
 	public void doInit(){
-		processor = (RESTfulProcessor) getContext().getAttributes().get("processor");
+		processor = (DWEBProcessor) getContext().getAttributes().get("processor");
 		metadataService = new MetadataService();
 	}
 	

@@ -56,8 +56,8 @@ public class RESTSpout extends BaseRichSpout{
 			int numTasks = context.getComponentTasks(context.getThisComponentId()).size();
             int index = context.getThisTaskIndex();
             
-            int port = Utils.getInt(conf.get(Config.REST_INVOCATIONS_PORT));
-            List<String> servers = (List<String>) conf.get(Config.REST_SERVERS);
+            int port = Utils.getInt(conf.get(Config.DWEB_INVOCATIONS_PORT));
+            List<String> servers = (List<String>) conf.get(Config.DWEB_SERVERS);
             if(servers == null || servers.isEmpty()){
             	throw new RuntimeException("No REST configured for topology");
             }

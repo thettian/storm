@@ -9,20 +9,20 @@ import org.restlet.data.Protocol;
  * @author thettian
  *
  */
-public class RESTful {
+public class DistributedWEB {
 	
 	/**
 	 * The interface for handle HTTP request.
 	 * @author thettian
 	 *
 	 */
-	public interface RESTfulProcessor{
+	public interface DWEBProcessor{
 		public String execute(String uri);
 	}
 	
-	public static class RESTfulServer {
-		RESTfulProcessor processor ;
-		public RESTfulServer(RESTfulProcessor processor){
+	public static class DWEBServer {
+		DWEBProcessor processor ;
+		public DWEBServer(DWEBProcessor processor){
 			this.processor = processor;
 		}
 		
@@ -36,7 +36,7 @@ public class RESTful {
 			Context context = new Context();
 			context.getAttributes().put("processor", processor);
 			
-			return new Server(context, protocol, port, RESTfulServerResource.class);
+			return new Server(context, protocol, port, DistributedWEBServer.class);
 		}
 	}
 

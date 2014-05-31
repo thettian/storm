@@ -4,7 +4,7 @@
   (:import [org.apache.thrift7.protocol TBinaryProtocol TBinaryProtocol$Factory])
   (:import [org.apache.thrift7 TException])
   (:import [org.apache.thrift7.transport TNonblockingServerTransport TNonblockingServerSocket])
-  (:import [backtype.storm.generated RESTful RESTful$RESTfulProcessor RESTful$RESTfulServer
+  (:import [backtype.storm.generated DistributedWEB DistributedWEB$DWEBProcessor DistributedWEB$DWEBServer
             DRPCRequest DRPCExecutionException DistributedRPCInvocations 
             DistributedRPCInvocations$Iface DistributedRPCInvocations$Processor])
   (:import [java.util.concurrent Semaphore ConcurrentLinkedQueue ThreadPoolExecutor ArrayBlockingQueue TimeUnit])
@@ -40,7 +40,7 @@
         clear-thread (async-loop
                       (fn []
                         (doseq [[id start] @id->start]
-                          (when (> (time-delta start) (conf REST-REQUEST-TIMEOUT-SECS))
+                          (when (> (time-delta start) (conf DWEB-REQUEST-TIMEOUT-SECS))
                             (when-let [sem (@id->sem id)]
                               (swap! id->result assoc id (DRPCExecutionException. "Request timed out"))
                               (.release sem))
@@ -49,7 +49,7 @@
                         TIMEOUT-CHECK-SECS
                         ))
         ]
-    (reify RESTful$RESTfulProcessor
+    (reify DistributedWEB$DWEBProcessor
       (^String execute [this ^String uri]
         (log-debug "Received REST request for " uri " at " (System/currentTimeMillis))
         (let [id (str (swap! ctr (fn [v] (mod (inc v) 1000000000))))
@@ -101,17 +101,17 @@
 (defn launch-server!
   ([]
     (let [conf (read-storm-config)
-          worker-threads (int (conf REST-WORKER-THREADS))
-          queue-size (int (conf REST-QUEUE-SIZE))
+          worker-threads (int (conf DWEB-WORKER-THREADS))
+          queue-size (int (conf DWEB-QUEUE-SIZE))
           service-handler (service-handler)
           
           handler-server (.createServer
-                           (RESTful$RESTfulServer. service-handler)
+                           (DistributedWEB$DWEBServer. service-handler)
                            (Protocol/HTTP)
-                           (int (conf REST-PORT))
+                           (int (conf DWEB-PORT))
                            )
           
-          invoke-server (THsHaServer. (-> (TNonblockingServerSocket. (int (conf REST-INVOCATIONS-PORT)))
+          invoke-server (THsHaServer. (-> (TNonblockingServerSocket. (int (conf DWEB-INVOCATIONS-PORT)))
                                         (THsHaServer$Args.)
                                         (.workerThreads 64)
                                         (.protocolFactory (TBinaryProtocol$Factory.))
