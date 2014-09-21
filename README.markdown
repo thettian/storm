@@ -4,15 +4,15 @@ The [Rationale page](https://github.com/nathanmarz/storm/wiki/Rationale) on the 
 
 Storm has a website at [storm-project.net](http://storm-project.net). Follow [@stormprocessor](https://twitter.com/stormprocessor) on Twitter for updates on the project.
 
+## DWEB
+
+* 参照Storm DRPC 的实现，对Storm进行获取Web HTTP请求的扩展，开发一种新架构的的Web服务器集群。
+* 将Web服务器Web HTTP请求过程划分为请求接收和请求处理两个部分。请求接收使用Restlet技术，主要负责接收来自Web客户端的请求与返回响应结果的功能；请求处理过程转交给Storm集群进行处理。
+* Web HTTP请求处理过程借用Storm的Stream处理模型，取代过去的函数调用、返回结果的方式，更加符合实时流处理的过程。
+
 ## Documentation
 
 Documentation and tutorials can be found on the [Storm wiki](http://github.com/nathanmarz/storm/wiki).
-
-## Getting help
-
-Feel free to ask questions on Storm's mailing list: http://groups.google.com/group/storm-user
-
-You can also come to the #storm-user room on [freenode](http://freenode.net/). You can usually find a Storm developer there to help you out.
 
 ## License
 
@@ -33,50 +33,6 @@ You must not remove this notice, or any other, from this software.
 * Jason Jackson ([@jason_j](http://twitter.com/jason_j))
 * Andy Feng ([@anfeng](https://github.com/anfeng))
 
-## Contributors
+## DWEB contributor
 
-* Christopher Bertels ([@bakkdoor](http://twitter.com/bakkdoor))
-* Michael Montano ([@michaelmontano](http://twitter.com/michaelmontano))
-* Dennis Zhuang ([@killme2008](https://github.com/killme2008))
-* Trevor Smith ([@trevorsummerssmith](https://github.com/trevorsummerssmith))
-* Ben Hughes ([@schleyfox](https://github.com/schleyfox))
-* Alexey Kachayev ([@kachayev](https://github.com/kachayev))
-* Haitao Yao ([@haitaoyao](https://github.com/haitaoyao))
-* Dan Dillinger ([@ddillinger](https://github.com/ddillinger))
-* Kang Xiao ([@xiaokang](https://github.com/xiaokang))
-* Gabriel Grant ([@gabrielgrant](https://github.com/gabrielgrant))
-* Travis Wellman ([@travisfw](https://github.com/travisfw))
-* Kasper Madsen ([@KasperMadsen](https://github.com/KasperMadsen))
-* Michael Cetrulo ([@git2samus](https://github.com/git2samus))
-* Thomas Jack ([@tomo](https://github.com/tomo))
-* Nicolas Yzet ([@nicoo](https://github.com/nicoo))
-* Fabian Neumann ([@hellp](https://github.com/hellp))
-* Soren Macbeth ([@sorenmacbeth](https://github.com/sorenmacbeth))
-* Ashley Brown ([@ashleywbrown](https://github.com/ashleywbrown))
-* Guanpeng Xu ([@herberteuler](https://github.com/herberteuler))
-* Vinod Chandru ([@vinodc](https://github.com/vinodc))
-* Martin Kleppmann ([@ept](https://github.com/ept))
-* Evan Chan ([@velvia](https://github.com/velvia))
-* Sjoerd Mulder ([@sjoerdmulder](https://github.com/sjoerdmulder))
-* Yuta Okamoto ([@okapies](https://github.com/okapies))
-* Barry Hart ([@barrywhart](https://github.com/barrywhart))
-* Sergey Lukjanov ([@Frostman](https://github.com/Frostman))
-* Ross Feinstein ([@rnfein](https://github.com/rnfein))
-* Junichiro Takagi ([@tjun](https://github.com/tjun))
-* Bryan Peterson ([@Lazyshot](https://github.com/Lazyshot))
-* Sam Ritchie ([@sritchie](https://github.com/sritchie))
-* Stuart Anderson ([@emblem](https://github.com/emblem))
-* Robert Evans ([@revans2](https://github.com/revans2)) 
-* Lorcan Coyle ([@lorcan](https://github.com/lorcan))
-* Derek Dagit ([@d2r](https://github.com/d2r))
-* Andrew Olson ([@noslowerdna](https://github.com/noslowerdna))
-* Gavin Li ([@lyogavin](https://github.com/lyogavin))
-* Tudor Scurtu ([@tscurtu](https://github.com/tscurtu))
-* Homer Strong ([@strongh](https://github.com/strongh))
-* Sean Melody ([@srmelody](https://github.com/srmelody))
-* Jake Donham ([@jaked](https://github.com/jaked))
-* Ankit Toshniwal ([@ankitoshniwal](https://github.com/ankitoshniwal))
-
-## Acknowledgements
-
-YourKit is kindly supporting open source projects with its full-featured Java Profiler. YourKit, LLC is the creator of innovative and intelligent tools for profiling Java and .NET applications. Take a look at YourKit's leading software products: [YourKit Java Profiler](http://www.yourkit.com/java/profiler/index.jsp) and [YourKit .NET Profiler](http://www.yourkit.com/.net/profiler/index.jsp).
+* thettian ([@thettian](https://github.com/thettian))
