@@ -10,9 +10,9 @@ Storm has a website at [storm-project.net](http://storm-project.net). Follow [@s
 * 将Web服务器Web HTTP请求过程划分为请求接收和请求处理两个部分。请求接收使用Restlet技术，主要负责接收来自Web客户端的请求与返回响应结果的功能；请求处理过程转交给Storm集群进行处理。
 * Web HTTP请求处理过程借用Storm的Stream处理模型，取代过去的函数调用、返回结果的方式，更加符合实时流处理的过程。
 
-## Documentation
+## DWEB Documentation
 
-Documentation and tutorials can be found on the [Storm wiki](http://github.com/nathanmarz/storm/wiki).
+DWEB Documentation can be found on the [Storm wiki](https://github.com/thettian/storm/wiki/Distributed-WEB).
 
 ## License
 
